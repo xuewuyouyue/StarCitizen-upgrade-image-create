@@ -1,0 +1,12 @@
+import {DatabaseSync,backup} from 'node:sqlite';
+import {mkdirSync,cpSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+const data=resolve(process.env.DATA_DIR||'data'),target=process.argv[2];
+if(!target)throw new Error('Usage: node scripts/backup.mjs /absolute/backup-directory');
+const destination=resolve(target);if(destination===data||destination.startsWith(data+'/')||destination.startsWith(data+'\\'))throw new Error('备份目录必须位于数据目录之外');
+mkdirSync(destination,{recursive:false,mode:0o700});
+const db=new DatabaseSync(join(data,'studio.sqlite'),{readOnly:true});
+await backup(db,join(destination,'studio.sqlite'));db.close();
+cpSync(join(data,'images'),join(destination,'images'),{recursive:true,errorOnExist:true});
+cpSync(join(data,'backups'),join(destination,'history'),{recursive:true,errorOnExist:true});
+console.log('备份完成：'+destination);

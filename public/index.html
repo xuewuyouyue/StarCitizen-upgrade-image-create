@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="选择舰船，定制中框，快速制作星际公民升级商品图。">
+  <title>WB图片生成器</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/theme.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="WB图片生成器首页"><span class="brand-mark"><span>↑</span></span><span>WB图片生成器<small>WB IMAGE GENERATOR</small></span></a>
+  <nav aria-label="主导航"><button class="nav-item active" data-view="editor">商品图制作</button><button class="nav-item" data-view="library">舰船图库 <span id="ship-count">0</span></button></nav>
+  <div id="account-actions" class="account-actions hidden"><span id="current-user"></span><button id="feedback-open" class="text-button hidden">留言板</button><button id="manage-roles" data-admin class="text-button hidden">账号权限</button><button id="logout" class="text-button">退出登录</button></div>
+  <div class="top-actions"><span id="connection" class="status">正在连接</span><button id="export-top" class="primary">↓ 导出商品图</button></div>
+</header>
+<main>
+<section id="editor-view">
+  <div class="page-heading"><div><div class="eyebrow">STAR CITIZEN · UPGRADE COLLECTION</div><h1>选择舰船，定制中框，生成属于你的升级商品图<span>。</span></h1><p>为下一次跃迁，定义画面。</p></div><span class="step-hint">01 选择舰船 <i>／</i> 02 定制样式 <i>／</i> 03 高清导出</span></div>
+  <div class="workspace">
+    <aside class="control-panel panel">
+      <div class="section-title"><h2><span>01</span> 升级路线</h2><button id="swap-ships" class="text-button" title="交换起点与终点">⇄ 交换</button></div>
+      <label class="field-label">起点舰船 <small>FROM</small></label><button id="pick-from" class="ship-slot"><span class="slot-plus">＋</span><span>选择起点舰船</span></button>
+      <div class="route-connector"><span>↓</span><i></i><small>UPGRADE TO</small></div>
+      <label class="field-label">终点舰船 <small>TO</small></label><button id="pick-to" class="ship-slot"><span class="slot-plus">＋</span><span>选择终点舰船</span></button>
+      <div class="divider"></div>
+      <label class="field-label">商品类型</label><div class="segmented" id="type-control"><button class="selected" data-type="WBCCU">WBCCU</button><button data-type="涨价CCU">涨价CCU</button><button data-type="CCU">普通CCU</button></div>
+      <div class="two-fields"><label>上下排列<select id="order"><option value="to-top">终点在上 ↑</option><option value="from-top">起点在上 ↓</option></select></label><label>名称连接符<select id="separator"><option value=" → ">→</option><option value=" ➜ ">➜</option><option value=" / ">/</option><option value=" TO ">TO</option><option value=" 升级至 ">升级至</option></select></label></div>
+      <details class="adjust"><summary>调整照片取景 <span>⌄</span></summary><p class="muted">调整照片的位置与缩放，让舰船完整入镜。</p><div id="crop-controls"></div></details>
+    </aside>
+    <section class="preview-panel panel" aria-label="商品图预览">
+      <div class="preview-toolbar"><span><i class="live-dot"></i> 实时预览</span><span id="preview-size">1600 × 1600 px</span></div>
+      <div class="canvas-stage"><canvas id="preview" width="1600" height="1600" aria-label="合成的舰船升级商品图"></canvas><div id="preview-empty"><span class="empty-orbit">↗</span><h3>准备好，开始下一次跃迁</h3><p>从左侧选择两艘舰船，即可开始制作</p><button id="demo-button" data-admin class="secondary hidden">载入样例，试试看</button><small data-admin class="hidden">使用图库现有舰船体验合成效果</small></div></div>
+      <div class="preview-caption"><span id="route-caption">等待选择升级路线</span><span>预览即导出效果</span></div>
+      <div class="export-bar"><label>尺寸<select id="size"><option value="1600">1600 × 1600</option><option value="2000">2000 × 2000</option><option value="1000">1000 × 1000</option></select></label><label>格式<select id="format"><option value="png">PNG 高清</option><option value="jpeg">JPG 轻量</option></select></label><button id="export" class="primary">↓ 导出图片</button></div>
+    </section>
+    <aside class="design-panel panel">
+      <div class="section-title"><h2><span>02</span> 中框样式</h2><span class="subtle-tag">3 款原创</span></div>
+      <div id="templates" class="template-list">
+        <button data-template="ember" class="template selected"><img class="frame-thumb" src="/assets/porcelain.png" alt=""><span><strong>礼宾瓷白</strong><small>瓷白折面 · 香槟细线</small></span><em>✓</em></button>
+        <button data-template="tech" class="template"><img class="frame-thumb" src="/assets/naval.png" alt=""><span><strong>深海蓝</strong><small>深蓝留白 · 冷蓝切角</small></span><em>✓</em></button>
+        <button data-template="mono" class="template"><img class="frame-thumb" src="/assets/graphite.png" alt=""><span><strong>曜石灰金</strong><small>石墨深色 · 灰金层次</small></span><em>✓</em></button>
+      </div>
+      <div class="marker-controls"><div class="marker-mode-list" role="group" aria-label="中框呈现方式"><button type="button" class="marker-mode selected" data-upgrade-mode="label" aria-pressed="true"><span class="marker-mode-preview" aria-hidden="true"><span class="marker-label-preview"><img src="/assets/icons/lucide/arrow-up.svg" alt="">UPGRADE</span></span><strong>底板＋文字</strong></button><button type="button" class="marker-mode" data-upgrade-mode="arrow" aria-pressed="false"><span class="marker-mode-preview marker-arrow-preview" aria-hidden="true"><svg viewBox="1 1 22 22" fill="none" stroke-linecap="butt" stroke-linejoin="miter"><g stroke="#454b4c" stroke-width="3.6"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></g><g stroke="#eeece4" stroke-width="2.5"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></g></svg></span><strong>单独箭头（无底）</strong></button></div><label id="upgrade-text-control">中框文字 <small>留空显示 UPGRADE</small><input id="upgradeText" maxlength="40" placeholder="UPGRADE"></label><label>中框箭头<select id="upgradeArrow"><option value="line">细线箭头</option><option value="solid">实心箭头</option><option value="double">双箭头</option><option id="upgrade-arrow-none" value="none">不显示箭头</option></select><small class="marker-hint">箭头方向随上下排列自动调整</small></label><div id="upgrade-color-control" class="arrow-color-control hidden"><label for="upgradeColor">箭头颜色</label><div class="arrow-color-row"><input id="upgradeColor" type="color" value="#eeece4" aria-describedby="upgrade-color-note"><span id="upgrade-color-value">跟随中框</span><button type="button" id="reset-upgrade-color" class="text-button">跟随中框</button></div><small id="upgrade-color-note" class="marker-hint">仅应用于无底箭头，轮廓自动适配明暗</small></div></div>
+      <div class="divider"></div><div class="section-title"><h2><span>03</span> 店铺与文案</h2></div>
+      <label>店铺名称<input id="shop" maxlength="30" placeholder="输入你的店铺名称" value="我的店铺"></label>
+      <label>店铺 Logo <small>可留空</small><span id="logo-area" class="logo-area"><span id="logo-label">＋ 上传透明背景 Logo</span><input id="logo-input" type="file" accept="image/png,image/jpeg,image/webp"></span></label><button id="remove-logo" class="text-button hidden">移除 Logo</button>
+      <label>商品标题 <small>留空自动生成</small><input id="title" maxlength="80" placeholder="起点 → 终点"></label>
+      <button id="save-settings" class="secondary full">保存个人配置</button><p class="muted settings-note">配置仅属于当前账号，登录其他设备后可继续使用。</p>
+    </aside>
+  </div>
+  <section class="batch-panel panel" aria-labelledby="batch-title">
+    <div class="section-title"><h2 id="batch-title">外部导入</h2><span class="subtle-tag">在此设备生成</span></div>
+    <p class="muted">支持CCUgame与星河避难所导出的表格文件</p>
+    <div class="batch-actions"><button type="button" id="batch-select" class="secondary">上传文件</button><input id="batch-file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden><label>图片语言<select id="batch-language"><option value="zh">中文</option><option value="en">English</option></select></label><button type="button" id="batch-start" class="primary" disabled>生成 ZIP</button><button type="button" id="batch-cancel" class="secondary hidden">取消生成</button></div>
+    <p id="batch-status" role="status"></p><progress id="batch-progress" class="hidden" max="1" value="0" aria-label="批量生成进度"></progress><div id="batch-downloads" class="batch-downloads"></div>
+    <div id="batch-table-wrap" class="batch-table-wrap hidden"><table><thead><tr><th>行</th><th>起点（表格原名）</th><th>终点（表格原名）</th><th>节约</th><th>商品类型</th><th>状态</th></tr></thead><tbody id="batch-rows"></tbody></table></div>
+  </section>
+</section>
+<section id="library-view" class="hidden">
+  <div class="page-heading"><div><div class="eyebrow">YOUR FLEET, ALWAYS READY</div><h1>每一艘舰船，都在这里<span>。</span></h1><p>浏览共用舰船图库，制作商品图时直接选择。</p></div><button id="upload-library" data-admin class="primary hidden">＋ 上传舰船照片</button></div>
+  <div class="library-toolbar"><div class="search-field"><span>⌕</span><input id="library-search" placeholder="搜索舰船中文名、英文名或制造商" aria-label="搜索图库"></div><span id="library-info" class="muted"></span><button id="refresh-library" class="secondary">↻ 刷新图库</button></div>
+  <div id="library-grid" class="ship-grid"></div><input id="ship-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+  <div data-admin class="library-note hidden">支持 JPG / PNG / WebP，可一次上传多张。命名为「舰船名称-价格.jpg」时自动填入美元价格，如 Ares Ion-250.jpg；-NA 表示价格留空。推荐横向原图，单张不超过 20 MB。</div>
+</section>
+</main>
+<footer><span>WB图片生成器 · <a href="https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create" target="_blank" rel="noopener noreferrer">项目源码（AGPL-3.0）</a></span><a href="https://robertsspaceindustries.com/" target="_blank" rel="noopener noreferrer">非官方图片制作工具 · Star Citizen</a></footer>
+<dialog id="feedback-dialog" aria-labelledby="feedback-title"><div class="dialog-head"><h2 id="feedback-title">留言板</h2><button id="feedback-close" class="icon-button" aria-label="关闭留言板">×</button></div><p class="feedback-invite">如您有更好的建议，欢迎在此处留言</p><form id="feedback-form"><label for="feedback-content">留言内容</label><textarea id="feedback-content" rows="4" maxlength="1000" required placeholder="写下你的建议，最多 1000 个字符"></textarea><button type="submit" class="primary">提交留言</button></form><div class="feedback-list-heading"><h3 id="feedback-list-title">我的留言</h3><button id="feedback-refresh" class="text-button">刷新留言</button></div><p id="feedback-status" role="status"></p><div id="feedback-list"></div><button id="feedback-more" class="secondary full hidden">加载更多</button></dialog>
+<dialog id="picker"><div class="dialog-head"><div><span class="eyebrow">SELECT YOUR SHIP</span><h2 id="picker-title">选择舰船</h2></div><button data-close="picker" class="icon-button" aria-label="关闭选船">×</button></div><div class="picker-tools"><input id="picker-search" class="search-input" placeholder="搜索舰船名称或制造商" aria-label="搜索舰船"><label class="picker-sort">排列顺序<select id="picker-sort" aria-label="舰船排序"><option value="default">默认顺序</option><option value="price-asc">价值升序（低→高）</option><option value="price-desc">价值降序（高→低）</option></select></label></div><p id="picker-rule" class="muted picker-rule"></p><div id="picker-grid" class="ship-grid compact"></div><button id="picker-upload" data-admin class="secondary full hidden">＋ 上传新舰船</button></dialog>
+<dialog id="edit-dialog"><div class="dialog-head"><h2>维护舰船资料</h2><button data-close="edit-dialog" class="icon-button" aria-label="关闭编辑">×</button></div><form id="edit-form"><input id="edit-id" type="hidden"><label>中文名称<input id="edit-name" maxlength="60" required></label><label>英文名称<input id="edit-en" maxlength="80"></label><label>制造商<input id="edit-manufacturer" maxlength="60" placeholder="例如：Origin / MISC / Anvil"></label><label>舰船价格（美元 $）<input id="edit-price" type="number" min="0" max="999999.99" step="0.01" placeholder="例如：140；留空不显示"></label><label>替换照片<input id="edit-photo" type="file" accept="image/png,image/jpeg,image/webp"></label><p class="muted">替换照片前会保留旧文件；删除舰船也会保留服务器备份。</p><div class="dialog-actions"><button id="delete-ship" type="button" class="danger">删除舰船</button><button type="submit" class="primary">保存修改</button></div></form></dialog>
+<dialog id="roles-dialog" aria-labelledby="roles-title"><div class="dialog-head"><h2 id="roles-title">账号权限</h2><button data-close="roles-dialog" class="icon-button" aria-label="关闭账号权限">×</button></div><p class="muted">查询已注册邮箱，授予或撤销共用图库管理权限。</p><form id="role-form"><label>目标邮箱<input id="role-email" type="email" maxlength="254" autocomplete="off" required></label><button id="role-query" type="submit" class="secondary full">查询账号</button></form><div id="role-result" class="hidden"><p id="role-status"></p><div class="dialog-actions"><button id="grant-role" type="button" class="primary hidden">授予管理员</button><button id="revoke-role" type="button" class="danger hidden">撤销管理员</button></div></div><p id="role-error" role="alert"></p></dialog>
+<dialog id="login-dialog" aria-labelledby="auth-title"><span class="eyebrow">WELCOME BACK</span><h2 id="auth-title">进入WB图片生成器</h2>
+  <div id="auth-modes" class="segmented" aria-label="登录方式"><button type="button" data-auth-mode="login" class="selected" aria-pressed="true">邮箱登录</button><button type="button" data-auth-mode="register" aria-pressed="false">注册账号</button></div>
+  <form id="email-login-form" data-auth-panel="login"><label>邮箱<input id="login-email" type="email" autocomplete="username" maxlength="254" required></label><label>密码<input id="login-password" type="password" autocomplete="current-password" maxlength="128" required></label><button class="primary full" type="submit">登录工作台</button></form>
+  <div data-auth-panel="register" class="hidden"><p id="registration-note" class="muted">账号注册暂未开放</p><form id="register-form" class="hidden"><label>邮箱<input id="register-email" type="email" autocomplete="email" maxlength="254" required></label><label>设置密码<input id="register-password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required><small class="password-hint">8–128 个字符</small></label><button class="primary full" type="submit">注册并登录</button></form></div>
+  <p id="login-error" role="alert"></p>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="/app.js"></script>
+</body></html>

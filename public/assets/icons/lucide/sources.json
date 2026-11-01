@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/lucide-icons/lucide",
+  "commit": "02eb9161b57917ccaa262f1bf070507cddde3b08",
+  "retrieved_at": "2026-10-19",
+  "icons": [
+    "arrow-up",
+    "arrow-big-up",
+    "chevrons-up"
+  ],
+  "license": "LICENSE.txt",
+  "rendering": "Local SVG sources adapted to Canvas Path2D; theme colors and stroke sizes are local"
+}

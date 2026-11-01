@@ -1,0 +1,21 @@
+{
+  "name": "starcitizen-upgrade-image-create",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/server.test.mjs tests/catalog.test.mjs tests/route-rules.test.mjs tests/accounts.test.mjs tests/roles.test.mjs tests/demo.test.mjs tests/ccu-csv.test.mjs tests/ccu-xlsx.test.mjs tests/local-zip.test.mjs tests/image-cache.test.mjs tests/feedback.test.mjs tests/thumbnails.test.mjs tests/thumbnail-ui.test.mjs tests/seed-catalog.test.mjs",
+    "seed-catalog": "node scripts/seed-catalog.mjs",
+    "thumbnails": "node scripts/generate-thumbnails.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "sharp": "0.35.5",
+    "validator": "13.15.35"
+  },
+  "description": "Browser-based Star Citizen upgrade product image generator with shared ship catalog",
+  "license": "AGPL-3.0-only"
+}

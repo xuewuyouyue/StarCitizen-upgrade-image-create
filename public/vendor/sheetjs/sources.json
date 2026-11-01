@@ -1,0 +1,8 @@
+{
+  "name": "SheetJS Community Edition",
+  "version": "0.20.3",
+  "license": "Apache-2.0",
+  "source": "https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs",
+  "documentation": "https://docs.sheetjs.com/docs/getting-started/installation/standalone/",
+  "sha256": "1a0fb062ee9781b13f6687371b202aaefc53b6ce55b530c027e01f9c087b77db"
+}
