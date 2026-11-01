@@ -4,6 +4,24 @@
 
 [GitHub 源码仓库](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create) · [问题与建议](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/issues)
 
+## Edge 离线扩展下载
+
+**只想在自己的电脑上使用？下载 [Edge 离线扩展 1.0.0 安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.0/WB-image-generator-Edge-offline-1.0.0.zip)。** 内含 256 张舰船原图和 256 张缩略图，约 267 MB；解压后通过 Edge 加载，无需登录或启动服务器，日常选船和生成图片从本地读取。
+
+在 [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.0)选择 `WB-image-generator-Edge-offline-1.0.0.zip`。GitHub 自动提供的 `Source code (zip)`、`Source code (tar.gz)`，以及绿色「Code → Download ZIP」下载的是项目源码，不是已打包的扩展。
+
+安装：完整解压 → Edge 打开 `edge://extensions` → 开启「开发人员模式」→「加载解压缩的扩展」→ 选择含有 `manifest.json` 的目录。点击工具栏中的扩展图标即可在新标签页打开生成器。详见 [Edge 安装和使用说明](extensions/edge/README.md)。
+
+| 使用方式 | 网页版 | Edge 离线扩展 |
+| --- | --- | --- |
+| 适合场景 | 多设备访问、共用图库 | 单机使用，减少网站图片流量 |
+| 账号与配置 | 账号登录，配置保存在服务器 | 无需登录，配置保存在当前 Edge 用户配置文件中，不跨设备同步 |
+| 舰船图片 | 按需从服务器加载 | 随安装包提供，运行时从本地读取 |
+| 图库维护 | 管理员维护共用图库 | 自己维护本机图库 |
+| 部署 | 需要 Node.js 服务端 | 解压并加载扩展，无需服务端 |
+
+**网页开发者入口：** [本地运行](#本地运行) · [部署说明](docs/deployment.md)。**扩展开发者入口：** [源码与构建](extensions/edge/README.md#从源码构建) · [发布记录](docs/edge-release.md)。网页与扩展共用本仓库中的舰船素材和合成模块，不需要维护两份图片。
+
 本项目为社区制作，与 Cloud Imperium Games / Roberts Space Industries 无隶属或官方合作关系。[Star Citizen 官方网站](https://robertsspaceindustries.com/)。
 
 ## 功能

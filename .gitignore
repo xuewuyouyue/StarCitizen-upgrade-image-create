@@ -3,6 +3,7 @@ data/
 work/
 backups/
 coverage/
+dist/
 test-results/
 .env*
 !.env.example

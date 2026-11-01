@@ -1,0 +1,37 @@
+# Edge 离线扩展发布说明
+
+网页版和 Edge 离线扩展维护在同一仓库。扩展专用代码位于 `extensions/edge/`，舰船素材与合成模块直接复用仓库共享目录；无需重复提交 256 张原图和 256 张缩略图。网页服务端仍可按原有方式运行。
+
+## 1.0.0
+
+- 发布标签：`edge-v1.0.0`
+- [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.0)
+- [完整扩展安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.0/WB-image-generator-Edge-offline-1.0.0.zip)：`WB-image-generator-Edge-offline-1.0.0.zip`，约 267 MB。
+- [SHA-256 校验文件](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.0/WB-image-generator-Edge-offline-1.0.0.zip.sha256)：`WB-image-generator-Edge-offline-1.0.0.zip.sha256`。
+
+初次使用请下载完整扩展安装包，完整解压后在 Edge 的 `edge://extensions` 中开启「开发人员模式」，点击「加载解压缩的扩展」，选择含 `manifest.json` 的目录。点击工具栏扩展图标即可打开生成器。
+
+GitHub 在每个 Release 下自动列出的 `Source code (zip)`、`Source code (tar.gz)` 是仓库源码，不是已打包的安装文件。安装时请选择上方我们上传的专名 ZIP；完整步骤见 [Edge 扩展说明](../extensions/edge/README.md)。
+
+本版本内置舰船素材，无需登录，常用配置和自定义图库保存在本机。日常生成及表格批量导出均在浏览器本地完成；初次下载安装包仍需流量，数据不会跨设备同步。
+
+源码包含 22 项离线测试，并已通过浏览器检查 PNG 导出、CSV/XLSX 导入、ZIP 下载和配置保存重开恢复。尚未在真实 Edge 中试装，尚未上架 Edge Add-ons 商店。
+
+## 维护与重新发布
+
+在仓库根目录安装依赖并验证：
+
+```sh
+npm ci
+npm test
+npm run test:edge
+npm run build:edge
+```
+
+`build:edge` 输出 `dist/edge/`；若目录已存在，会拒绝覆盖，请先改名保留旧输出再构建。发布包只应包含构建后的扩展文件，不应包含运行数据库、账号、网站配置、`node_modules/` 或部署凭据。
+
+为新版本使用新的 `edge-vX.Y.Z` 标签，将对应的完整 ZIP 和 SHA-256 校验文件作为 Release 附件上传，并同步更新下载入口与版本说明。不要把约 267 MB 的安装 ZIP 提交到 Git 历史；源码和共享素材留在仓库，安装包放在 Release 附件中。
+
+更新本机扩展时应保持原安装目录和扩展 ID，在 `edge://extensions` 中重新加载，不应先卸载。详见 [保留配置的方法](../extensions/edge/README.md#更新时保留配置)。
+
+自有代码采用 AGPL-3.0-only；官方舰船图片及缩略图另见 [素材权利说明](../ASSET_LICENSE.md)，第三方组件另见 [第三方许可](../THIRD_PARTY_NOTICES.md)。发布新版本时仍需保留这些声明。
