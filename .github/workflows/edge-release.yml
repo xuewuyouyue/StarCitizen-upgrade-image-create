@@ -1,0 +1,83 @@
+name: Publish Edge offline extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Extension release tag matching manifest version
+        required: true
+        default: edge-v1.0.0
+        type: string
+
+concurrency:
+  group: edge-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    env:
+      EDGE_TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Install and test
+        run: |
+          npm ci
+          npm test
+          npm run test:edge
+          npm run build:edge
+      - name: Package complete extension
+        id: package
+        run: |
+          version=$(node -p "require('./extensions/edge/manifest.json').version")
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$EDGE_TAG" == "edge-v$version" ]]
+          archive="WB-image-generator-Edge-offline-$version.zip"
+          mkdir -p dist/release
+          cp -a dist/edge dist/release/WB-image-generator-Edge-offline
+          (cd dist/release && zip -qr "$archive" WB-image-generator-Edge-offline)
+          (cd dist/release && sha256sum "$archive" > "$archive.sha256")
+          echo "archive=dist/release/$archive" >> "$GITHUB_OUTPUT"
+      - name: Upload, verify and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          ARCHIVE: ${{ steps.package.outputs.archive }}
+        run: |
+          releases=$(gh api "repos/$GH_REPO/releases?per_page=100" | jq --arg tag "$EDGE_TAG" '[.[] | select(.tag_name == $tag)]')
+          count=$(jq length <<< "$releases")
+          if [[ "$count" == 0 ]]; then
+            jq -n --arg tag "$EDGE_TAG" --arg commit "$GITHUB_SHA" --rawfile body docs/edge-release.md \
+              '{tag_name:$tag,target_commitish:$commit,name:("Edge 离线扩展 " + ($tag | sub("^edge-v";""))),body:$body,draft:true,prerelease:false}' > dist/release/create.json
+            release=$(gh api "repos/$GH_REPO/releases" --method POST --input dist/release/create.json)
+          else
+            [[ "$count" == 1 ]]
+            release=$(jq '.[0]' <<< "$releases")
+          fi
+          [[ $(jq -r .draft <<< "$release") == true ]]
+          id=$(jq -r .id <<< "$release")
+          [[ "$id" =~ ^[0-9]+$ ]]
+          [[ $(gh api "repos/$GH_REPO/releases/$id/assets" --jq length) == 0 ]]
+          gh api "repos/$GH_REPO/releases/$id" --method PATCH -f target_commitish="$GITHUB_SHA" > /dev/null
+          for file in "$ARCHIVE" "$ARCHIVE.sha256"; do
+            name=$(basename "$file")
+            type=application/zip
+            [[ "$name" != *.sha256 ]] || type=text/plain
+            response="dist/release/upload-$name.json"
+            gh api "https://uploads.github.com/repos/$GH_REPO/releases/$id/assets?name=$name" \
+              --method POST -H "Content-Type: $type" --input "$file" > "$response"
+            [[ $(jq -r .state "$response") == uploaded ]]
+            [[ $(jq -r .size "$response") == $(stat -c %s "$file") ]]
+            [[ $(jq -r .digest "$response") == "sha256:$(sha256sum "$file" | cut -d ' ' -f 1)" ]]
+          done
+          gh api "repos/$GH_REPO/releases/$id" --method PATCH -F draft=false -f make_latest=true > /dev/null
+          echo "Release: https://github.com/$GH_REPO/releases/tag/$EDGE_TAG" >> "$GITHUB_STEP_SUMMARY"
