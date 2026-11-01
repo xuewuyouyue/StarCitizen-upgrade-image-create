@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "WB图片生成器 · 离线版",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "点击图标在新标签页打开舰船升级图片生成器。内置256张舰船原图与缩略图，离线合成并保存本机配置。",
   "permissions": [
     "unlimitedStorage"

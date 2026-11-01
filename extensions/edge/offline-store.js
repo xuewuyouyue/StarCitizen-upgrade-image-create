@@ -16,7 +16,7 @@ function image(value){
 }
 function publicShip(ship){const {deleted,...value}=ship;return value;}
 function storageError(error){return new OfflineError(503,error?.name==='QuotaExceededError'?'本机存储空间不足，请清理空间后重试':'本机数据库不可用，请检查浏览器存储设置后重新打开扩展');}
-async function bundledManifest(){const response=await fetch(new URL('./assets/ships/manifest.json',import.meta.url));if(!response.ok)throw new Error('无法读取内置图库');return response.json();}
+async function bundledManifest(){const response=await fetch(new URL('./assets/ships/catalog.json',import.meta.url));if(!response.ok)throw new Error('无法读取内置图库');return response.json();}
 function catalog(manifest){
   if(!manifest||manifest.schemaVersion!==1||!Array.isArray(manifest.ships))invalid('内置图库清单无效');
   const found=new Map();

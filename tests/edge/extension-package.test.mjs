@@ -18,8 +18,20 @@ const {routeError,canSelectShip,sortPickerShips}=await module('route-rules.js');
 const {LocalZip}=await module('local-zip.js');
 const source=path=>readFile(resolve(root,path),'utf8');
 const manifest=JSON.parse(await source('manifest.json'));
-const catalog=JSON.parse(await source('assets/ships/manifest.json'));
+const catalog=JSON.parse(await source('assets/ships/catalog.json'));
 const ships=[{id:'a',name:'弩炮',en:'Ballista',priceUsd:140},{id:'b',name:'角斗士',en:'Gladiator',priceUsd:165},{id:'c',name:'财富',en:'Fortune',priceUsd:175}];
+test('扩展整棵资源树仅根目录包含一个 manifest.json，避免商店将图库误认作扩展',async()=>{
+  const found=[];
+  async function walk(directory,prefix=''){
+    for(const entry of await readdir(directory,{withFileTypes:true})){
+      const path=prefix+entry.name;
+      if(entry.isDirectory())await walk(resolve(directory,entry.name),path+'/');
+      else if(entry.name.toLowerCase()==='manifest.json')found.push(path);
+    }
+  }
+  await walk(root);
+  assert.deepEqual(found.sort(),['manifest.json']);
+});
 async function localFile(path,base=root){
   assert.equal(typeof path,'string');assert.doesNotMatch(path,/^[a-z][a-z\d+.-]*:|^\/\//i);
   const target=path.startsWith('/')?resolve(root,path.slice(1)):resolve(base,path);
@@ -89,7 +101,7 @@ test('默认离线 API 只读取一次包内清单，不把配置和图库操作
     assert.equal((await api('/api/ships')).length,256);
     const settings=await api('/api/settings');await api('/api/settings','PUT',{version:settings.version,value:{shop:'本机测试'}});
     await api('/api/ships');assert.equal((await api('/api/settings')).value.shop,'本机测试');
-    assert.equal(requests.length,1);assert.equal(requests[0],pathToFileURL(resolve(root,'assets/ships/manifest.json')).href);
+    assert.equal(requests.length,1);assert.equal(requests[0],pathToFileURL(resolve(root,'assets/ships/catalog.json')).href);
   }finally{globalThis.fetch=originalFetch;}
 });
 

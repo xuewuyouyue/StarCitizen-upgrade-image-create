@@ -6,7 +6,7 @@ on:
       tag:
         description: Extension release tag matching manifest version
         required: true
-        default: edge-v1.0.0
+        default: edge-v1.0.1
         type: string
 
 concurrency:
@@ -43,8 +43,9 @@ jobs:
           [[ "$EDGE_TAG" == "edge-v$version" ]]
           archive="WB-image-generator-Edge-offline-$version.zip"
           mkdir -p dist/release
-          cp -a dist/edge dist/release/WB-image-generator-Edge-offline
-          (cd dist/release && zip -qr "$archive" WB-image-generator-Edge-offline)
+          (cd dist/edge && zip -qr "../release/$archive" .)
+          [[ $(zipinfo -1 "dist/release/$archive" | grep -c -E '(^|/)manifest\.json$') == 1 ]]
+          zipinfo -1 "dist/release/$archive" | grep -x 'manifest.json'
           (cd dist/release && sha256sum "$archive" > "$archive.sha256")
           echo "archive=dist/release/$archive" >> "$GITHUB_OUTPUT"
       - name: Upload, verify and publish

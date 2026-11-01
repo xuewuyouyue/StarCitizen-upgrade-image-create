@@ -29,8 +29,8 @@ function localPath(directory,value){
   if(!within(directory,path))throw new Error('Extension resource escapes its directory');
   return path;
 }
-async function verifyCatalog(directory){
-  const manifest=JSON.parse(await readFile(join(directory,'manifest.json'),'utf8'));
+async function verifyCatalog(directory,file='manifest.json'){
+  const manifest=JSON.parse(await readFile(join(directory,file),'utf8'));
   if(manifest.schemaVersion!==1||!Array.isArray(manifest.ships)||manifest.ships.length!==256)throw new Error('Expected the bundled catalog of 256 ships');
   const ids=new Set(),files=new Set();
   for(const ship of manifest.ships){
@@ -45,6 +45,8 @@ async function verifyCatalog(directory){
   return manifest.ships.length;
 }
 async function verifyExtension(directory){
+  const manifests=(await readdir(directory,{recursive:true,withFileTypes:true})).filter(entry=>entry.isFile()&&entry.name.toLowerCase()==='manifest.json');
+  if(manifests.length!==1||resolve(manifests[0].parentPath)!==directory)throw new Error('Extension must contain only one manifest.json at its root');
   const manifest=JSON.parse(await readFile(join(directory,'manifest.json'),'utf8'));
   if(manifest.manifest_version!==3||!manifest.version||!manifest.background?.service_worker)throw new Error('Invalid Manifest V3 extension');
   const icons=value=>typeof value==='string'?[value]:Object.values(value||{});
@@ -67,9 +69,10 @@ export async function buildEdge({outputDir=join(root,'dist','edge')}={}){
     await copy(join(root,'public','vendor'),join(temporary,'vendor'));
     await copy(join(root,'public','assets'),join(temporary,'assets'));
     await copy(assets,join(temporary,'assets','ships'));
+    await rename(join(temporary,'assets','ships','manifest.json'),join(temporary,'assets','ships','catalog.json'));
     for(const name of await readdir(source))if(name!=='README.md')await copy(join(source,name),join(temporary,name));
     await copy(join(root,'LICENSE'),join(temporary,'LICENSE'));
-    const version=await verifyExtension(temporary),ships=await verifyCatalog(join(temporary,'assets','ships'));
+    const version=await verifyExtension(temporary),ships=await verifyCatalog(join(temporary,'assets','ships'),'catalog.json');
     if(await exists(outputDir))throw new Error('Output was created during the build; refusing to replace it: '+outputDir);
     await rename(temporary,outputDir);
     return {outputDir,version,ships,images:ships,thumbnails:ships};
