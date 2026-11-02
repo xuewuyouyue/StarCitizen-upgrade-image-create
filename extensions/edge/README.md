@@ -1,19 +1,21 @@
-# WB 图片生成器 · Edge 离线扩展
+# 星际公民CCU图片生成器 · Edge 离线扩展
 
-点击 Microsoft Edge 工具栏中的扩展图标，在新标签页打开 WB 图片生成器。无需启动服务器、注册或登录；舰船原图、缩略图、表格解析器和图片合成代码均随包提供，日常使用不再下载网站图库。
+点击 Microsoft Edge 工具栏中的扩展图标，在新标签页打开「星际公民CCU图片生成器」。无需启动服务器、注册或登录；舰船原图、缩略图、表格解析器和图片合成代码均随包提供，日常使用不再下载网站图库。
+
+1.0.2 包含简体中文与英文商店元数据，默认简体中文；工作台界面主要为简体中文，批量生成可选择中文或英文舰船名，这不代表整个工作台支持英文界面切换。
 
 ## 下载与安装
 
-1. 下载 [1.0.1 完整安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.1/WB-image-generator-Edge-offline-1.0.1.zip)，完整解压到准备长期保留的目录。安装包约 267 MB，首次下载会产生相应流量并占用本机磁盘。
+1. 下载 [1.0.2 完整安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.2/WB-image-generator-Edge-offline-1.0.2.zip)，完整解压到准备长期保留的目录。安装包约 267 MB，首次下载会产生相应流量并占用本机磁盘。
 2. 在 Edge 地址栏输入 `edge://extensions`，开启「开发人员模式」。
 3. 点击「加载解压缩的扩展」，选择解压后**包含 `manifest.json` 的目录**。不要选择 ZIP 文件或不含清单的上层目录，也不要直接双击 `index.html`。
-4. 在工具栏的扩展菜单中找到「WB 图片生成器」，点击图标打开工作台；可按需将图标固定到工具栏。
+4. 在工具栏的扩展菜单中找到「星际公民CCU图片生成器」，点击图标打开工作台；可按需将图标固定到工具栏。
 
 安装步骤依据 [Microsoft 官方本地安装文档](https://learn.microsoft.com/en-us/microsoft-edge/extensions/getting-started/extension-sideloading)。本版为桌面版 Edge 的 Manifest V3 扩展，尚未上架 Microsoft Edge Add-ons 商店，不会通过商店自动更新。
 
-在 [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.1)选择我们上传的 `WB-image-generator-Edge-offline-1.0.1.zip`。GitHub 自动生成的 `Source code (zip)` 和 `Source code (tar.gz)` 是开发者源码，需要构建后才能安装。
+在 [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.2)选择我们上传的 `WB-image-generator-Edge-offline-1.0.2.zip`。GitHub 自动生成的 `Source code (zip)` 和 `Source code (tar.gz)` 是开发者源码，需要构建后才能安装。
 
-1.0.1 修复商店上传时检测出多份 `manifest.json` 的问题：扩展内图库清单改为 `assets/ships/catalog.json`，ZIP 根目录直接包含唯一的 `manifest.json`。同一个 ZIP 可供商店上传，也可解压后本地加载；不要再上传 1.0.0 旧包。网站使用的图库清单保持不变。此修复不代表商店审核通过。
+1.0.2 将扩展显示名称统一为「星际公民CCU图片生成器」。此前 1.0.1 修复商店上传时检测出多份 `manifest.json` 的问题：扩展内图库清单改为 `assets/ships/catalog.json`，ZIP 根目录直接包含唯一的 `manifest.json`；网站使用的图库清单保持不变。1.0.1 已通过商店包验证，尚未通过审核或上架。同一个 ZIP 可供商店上传，也可解压后本地加载；不要再上传 1.0.0 旧包。
 
 ## 功能与本机数据
 

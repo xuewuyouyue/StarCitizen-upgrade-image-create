@@ -1,0 +1,5 @@
+{
+  "extensionName": {"message": "星际公民CCU图片生成器"},
+  "extensionDescription": {"message": "离线制作星际公民舰船升级商品图。内置256艘舰船原图及缩略图，支持本机配置和CSV/XLSX批量生成。"},
+  "actionTitle": {"message": "打开星际公民CCU图片生成器"}
+}

@@ -6,7 +6,7 @@ on:
       tag:
         description: Extension release tag matching manifest version
         required: true
-        default: edge-v1.0.1
+        default: edge-v1.0.2
         type: string
 
 concurrency:

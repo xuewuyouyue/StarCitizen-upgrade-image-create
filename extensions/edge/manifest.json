@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "WB图片生成器 · 离线版",
-  "version": "1.0.1",
-  "description": "点击图标在新标签页打开舰船升级图片生成器。内置256张舰船原图与缩略图，离线合成并保存本机配置。",
+  "name": "__MSG_extensionName__",
+  "default_locale": "zh_CN",
+  "version": "1.0.2",
+  "description": "__MSG_extensionDescription__",
   "permissions": [
     "unlimitedStorage"
   ],
   "action": {
-    "default_title": "打开WB图片生成器（离线版）",
+    "default_title": "__MSG_actionTitle__",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png"

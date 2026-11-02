@@ -1,0 +1,5 @@
+{
+  "extensionName": {"message": "Star Citizen CCU Image Generator"},
+  "extensionDescription": {"message": "Create Star Citizen CCU images offline. Includes 256 ships, local settings, and CSV/XLSX batch generation."},
+  "actionTitle": {"message": "Open Star Citizen CCU Image Generator"}
+}

@@ -58,6 +58,23 @@ test('Manifest V3 仅请求离线存储权限，不注入网页或访问远程�
   assert.doesNotMatch(csp,/unsafe-eval|unsafe-inline|https?:|\*/);
 });
 
+test('扩展包提供简体中文和英文商店信息，清单中的本地化引用均可解析',async()=>{
+  assert.equal(manifest.default_locale,'zh_CN');
+  const fields=[['name',manifest.name],['description',manifest.description],['action.default_title',manifest.action.default_title]];
+  const keys=fields.map(([field,value])=>{
+    assert.match(value,/^__MSG_([a-zA-Z0-9_]+)__$/,field);
+    return /^__MSG_([a-zA-Z0-9_]+)__$/.exec(value)[1];
+  });
+  for(const [locale,name] of [['zh_CN','星际公民CCU图片生成器'],['en_US','Star Citizen CCU Image Generator']]){
+    const messages=JSON.parse(await source('_locales/'+locale+'/messages.json'));
+    for(const key of keys){
+      assert.equal(typeof messages[key]?.message,'string',locale+' '+key);
+      assert.ok(messages[key].message.trim(),locale+' '+key);
+    }
+    assert.equal(messages[keys[0]].message,name,locale);
+  }
+});
+
 test('后台、图标与 HTML 运行资源均已打包，脚本没有内联事件或远程来源',async()=>{
   await localFile(manifest.background.service_worker);
   for(const [size,path] of Object.entries({...manifest.icons,...manifest.action.default_icon})){

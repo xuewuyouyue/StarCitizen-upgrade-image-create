@@ -4,13 +4,13 @@
 
 [GitHub 源码仓库](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create) · [问题与建议](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/issues)
 
-## Edge 离线扩展下载
+## 星际公民CCU图片生成器 · Edge 离线扩展下载
 
-**只想在自己的电脑上使用？下载 [Edge 离线扩展 1.0.1 安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.1/WB-image-generator-Edge-offline-1.0.1.zip)。** 内含 256 张舰船原图和 256 张缩略图，约 267 MB；解压后通过 Edge 加载，无需登录或启动服务器，日常选船和生成图片从本地读取。
+**只想在自己的电脑上使用？下载 [星际公民CCU图片生成器 1.0.2 安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.2/WB-image-generator-Edge-offline-1.0.2.zip)。** 内含 256 张舰船原图和 256 张缩略图，约 267 MB；解压后通过 Edge 加载，无需登录或启动服务器，日常选船和生成图片从本地读取。
 
-在 [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.1)选择 `WB-image-generator-Edge-offline-1.0.1.zip`。GitHub 自动提供的 `Source code (zip)`、`Source code (tar.gz)`，以及绿色「Code → Download ZIP」下载的是项目源码，不是已打包的扩展。
+在 [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.2)选择 `WB-image-generator-Edge-offline-1.0.2.zip`。GitHub 自动提供的 `Source code (zip)`、`Source code (tar.gz)`，以及绿色「Code → Download ZIP」下载的是项目源码，不是已打包的扩展。
 
-1.0.1 修复商店上传时的多份 `manifest.json` 和 ZIP 根目录结构问题：同一安装包既可供商店上传，也可解压后本地加载。不要再上传 1.0.0 旧包。修复打包结构不代表已通过商店审核；尚未在真实 Edge 中完成试装，也尚未上架。
+1.0.2 将扩展显示名称统一为「星际公民CCU图片生成器」。此前 1.0.1 已修复多份 `manifest.json` 和 ZIP 根目录结构问题，并通过商店包验证；同一安装包既可供商店上传，也可解压后本地加载。不要再上传 1.0.0 旧包。包验证不等于审核通过；尚未在真实 Edge 中完成试装，也尚未上架。
 
 安装：完整解压 → Edge 打开 `edge://extensions` → 开启「开发人员模式」→「加载解压缩的扩展」→ 选择含有 `manifest.json` 的目录。点击工具栏中的扩展图标即可在新标签页打开生成器。详见 [Edge 安装和使用说明](extensions/edge/README.md)。
 

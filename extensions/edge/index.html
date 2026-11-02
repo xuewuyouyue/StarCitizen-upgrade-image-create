@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="选择舰船，定制中框，快速制作星际公民升级商品图。">
-  <title>WB图片生成器 · 离线版</title><link rel="icon" href="./icons/icon32.png"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./theme.css">
+  <title>星际公民CCU图片生成器</title><link rel="icon" href="./icons/icon32.png"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./theme.css">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="./index.html" aria-label="WB图片生成器首页"><span class="brand-mark"><span>↑</span></span><span>WB图片生成器<small>OFFLINE EDITION</small></span></a>
+  <a class="brand" href="./index.html" aria-label="星际公民CCU图片生成器首页"><span class="brand-mark"><span>↑</span></span><span>星际公民CCU图片生成器<small>OFFLINE EDITION</small></span></a>
   <nav aria-label="主导航"><button class="nav-item active" data-view="editor">商品图制作</button><button class="nav-item" data-view="library">舰船图库 <span id="ship-count">0</span></button></nav>
 
   <div class="top-actions"><span id="connection" class="status">正在读取本机图库</span><button id="export-top" class="primary">↓ 导出商品图</button></div>
@@ -62,7 +62,7 @@
   <div class="library-note">支持 JPG / PNG / WebP，可一次上传多张。命名为「舰船名称-价格.jpg」时自动填入美元价格，如 Ares Ion-250.jpg；-NA 表示价格留空。推荐横向原图，单张不超过 20 MB。</div>
 </section>
 </main>
-<footer><span>WB图片生成器 · 离线版 · <a href="https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create" target="_blank" rel="noopener noreferrer">项目源码（AGPL-3.0）</a></span><a href="https://robertsspaceindustries.com/" target="_blank" rel="noopener noreferrer">离线版 · 非官方图片制作工具</a></footer>
+<footer><span>星际公民CCU图片生成器 · <a href="https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create" target="_blank" rel="noopener noreferrer">项目源码（AGPL-3.0）</a></span><a href="https://robertsspaceindustries.com/" target="_blank" rel="noopener noreferrer">离线版 · 非官方图片制作工具</a></footer>
 
 <dialog id="picker"><div class="dialog-head"><div><span class="eyebrow">SELECT YOUR SHIP</span><h2 id="picker-title">选择舰船</h2></div><button data-close="picker" class="icon-button" aria-label="关闭选船">×</button></div><div class="picker-tools"><input id="picker-search" class="search-input" placeholder="搜索舰船名称或制造商" aria-label="搜索舰船"><label class="picker-sort">排列顺序<select id="picker-sort" aria-label="舰船排序"><option value="default">默认顺序</option><option value="price-asc">价值升序（低→高）</option><option value="price-desc">价值降序（高→低）</option></select></label></div><p id="picker-rule" class="muted picker-rule"></p><div id="picker-grid" class="ship-grid compact"></div><button id="picker-upload" class="secondary full">＋ 导入新舰船</button></dialog>
 <dialog id="edit-dialog"><div class="dialog-head"><h2>维护舰船资料</h2><button data-close="edit-dialog" class="icon-button" aria-label="关闭编辑">×</button></div><form id="edit-form"><input id="edit-id" type="hidden"><label>中文名称<input id="edit-name" maxlength="60" required></label><label>英文名称<input id="edit-en" maxlength="80"></label><label>制造商<input id="edit-manufacturer" maxlength="60" placeholder="例如：Origin / MISC / Anvil"></label><label>舰船价格（美元 $）<input id="edit-price" type="number" min="0" max="999999.99" step="0.01" placeholder="例如：140；留空不显示"></label><label>替换照片<input id="edit-photo" type="file" accept="image/png,image/jpeg,image/webp"></label><p class="muted">修改和删除仅影响当前浏览器的本机图库，不会同步到网站。</p><div class="dialog-actions"><button id="delete-ship" type="button" class="danger">删除舰船</button><button type="submit" class="primary">保存修改</button></div></form></dialog>
