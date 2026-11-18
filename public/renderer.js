@@ -1,4 +1,4 @@
-import {routeError} from './route-rules.js';
+import {resolveOrigins,routeError} from './route-rules.js';
 import {markerIcons} from './marker-icons.js';
 const images=new Map();
 export function loadImage(src){
@@ -6,7 +6,7 @@ export function loadImage(src){
   const image=new Image();let resolve,reject;
   const pending=new Promise((done,fail)=>{resolve=done;reject=fail;});
   image.onload=()=>resolve(image);image.onerror=()=>{if(images.get(src)===pending)images.delete(src);reject(new Error('图片加载失败，请刷新图库后重试'));};
-  images.set(src,pending);while(images.size>4)images.delete(images.keys().next().value);
+  images.set(src,pending);while(images.size>6)images.delete(images.keys().next().value);
   image.src=src;return pending;
 }
 export function forgetImage(src){images.delete(src);}
@@ -29,6 +29,19 @@ function photo(ctx,img,x,y,w,h,crop={}){
   const zoom=Number(crop.zoom)||1,px=Number(crop.x??50)/100,py=Number(crop.y??50)/100;
   const scale=Math.max(w/img.width,h/img.height)*zoom,dw=img.width*scale,dh=img.height*scale;
   ctx.save();cutRect(ctx,x,y,w,h,12);ctx.clip();ctx.drawImage(img,x-(dw-w)*px,y-(dh-h)*py,dw,dh);ctx.restore();
+}
+function shipName(ship,state){return state.language==='en'?ship.en||ship.name:ship.name;}
+function originPhotos(ctx,origins,imgs,y,state,frame){
+  const crop=state.crop||{};
+  if(origins.length===1){photo(ctx,imgs[0],34,y,932,367,crop.origins?.[origins[0].id]||crop.from);return;}
+  const gap=8,width=(932-gap*(origins.length-1))/origins.length;
+  origins.forEach((ship,index)=>{
+    const x=34+index*(width+gap),position=crop.origins?.[ship.id]||(index===0?crop.from:undefined);
+    photo(ctx,imgs[index],x,y,width,367,position);
+    const labelY=y+367-(y===99?74:46);
+    ctx.save();cutRect(ctx,x+8,labelY,width-16,38,6);ctx.globalAlpha=.92;ctx.fillStyle=frame.label;ctx.fill();ctx.globalAlpha=1;
+    text(ctx,shipName(ship,state),x+width/2,labelY+28,25,frame.ink,width-36,700,'center');ctx.restore();
+  });
 }
 function rule(ctx,points,color,width=1){ctx.beginPath();ctx.moveTo(...points[0]);for(const p of points.slice(1))ctx.lineTo(...p);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
 function contain(ctx,img,x,y,w,h){const s=Math.min(w/img.width,h/img.height);ctx.drawImage(img,x+(w-img.width*s)/2,y+(h-img.height*s)/2,img.width*s,img.height*s);}
@@ -98,14 +111,14 @@ function upgradeMarker(ctx,state,frame,up){
   ctx.restore();
 }
 export async function render(canvas,state,ships){
-  const from=ships.find(s=>s.id===state.from),to=ships.find(s=>s.id===state.to),error=routeError(from,to);if(error)throw new Error(error);
+  const origins=resolveOrigins(state,ships),from=origins[0],to=ships.find(s=>s.id===state.to),error=routeError(origins,to);if(error)throw new Error(error);
   const frame=frames[state.template]||frames.ember;
-  const [fromImg,toImg,plate,logo]=await Promise.all([loadImage(from.imageUrl),loadImage(to.imageUrl),loadImage('/assets/'+frame.file),state.logo?loadImage(state.logo):null]);
+  const [fromImgs,toImg,plate,logo]=await Promise.all([Promise.all(origins.map(ship=>loadImage(ship.imageUrl))),loadImage(to.imageUrl),loadImage('/assets/'+frame.file),state.logo?loadImage(state.logo):null]);
   const size=Number(state.size)||1600;canvas.width=size;canvas.height=size;const ctx=canvas.getContext('2d');ctx.scale(size/1000,size/1000);ctx.imageSmoothingQuality='high';
   ctx.drawImage(plate,0,0,1000,1000);
   const up=state.order==='to-top';
-  photo(ctx,up?toImg:fromImg,34,99,932,367,state.crop[up?'to':'from']);
-  photo(ctx,up?fromImg:toImg,34,487,932,367,state.crop[up?'from':'to']);
+  originPhotos(ctx,origins,fromImgs,up?487:99,state,frame);
+  photo(ctx,toImg,34,up?99:487,932,367,state.crop?.to);
   // Offset technical rules echo the reference pages without copying their brand marks.
   rule(ctx,[[27,145],[27,94],[153,94],[164,105],[366,105]],frame.line,1.4);
   rule(ctx,[[633,846],[837,846],[853,861],[973,861],[973,815]],frame.line,1.4);
@@ -131,7 +144,7 @@ export async function render(canvas,state,ships){
     cutRect(ctx,250,434,500,86,14);ctx.fillStyle=frame.label;ctx.fill();ctx.strokeStyle=frame.accent;ctx.lineWidth=1.2;ctx.stroke();
   }
   upgradeMarker(ctx,state,frame,up);
-  const name=state.title.trim()||(state.language==='en'?from.en||from.name:from.name)+state.separator+(state.language==='en'?to.en||to.name:to.name);
+  const name=state.title.trim()||origins.map(ship=>shipName(ship,state)).join(' / ')+state.separator+shipName(to,state);
   title(ctx,name,frame);
   return true;
 }
