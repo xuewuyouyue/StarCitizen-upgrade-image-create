@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
-import {hasPrice,routeError,canSelectShip,sortPickerShips} from '../public/route-rules.js';
+import {hasPrice,routeError,canSelectShip,sortPickerShips,originIds,resolveOrigins,originSelectionError} from '../public/route-rules.js';
 
 const source=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');
 const actions=[
@@ -27,6 +27,8 @@ function browser(){
     set src(value){this.url=value;requests.push({url:value,loading:this.loading,decoding:this.decoding});}
     append(...children){this.children.push(...children);}
     replaceChildren(...children){this.children=[...children];}
+    setAttribute(name,value){this[name]=value;}
+    addEventListener(name,action){this['on'+name]=action;}
     showModal(){this.open=true;}
     close(){this.open=false;}
     focus(){this.focused=true;}
@@ -37,7 +39,7 @@ function browser(){
   $('#library-view').classList.add('hidden');
   const context={$,elem,$$:()=>[],button:(text,className,action)=>Object.assign(elem('button',className,text),{onclick:action}),
     ships:[],state:{from:null,to:null,size:1600},currentUser:{id:'test-user',role:'user'},authRevision:1,renderRevision:0,pickerTarget:'from',
-    isAdmin:()=>false,hasPrice,routeError,canSelectShip,sortPickerShips,formatPrice:value=>'$'+value,structuredClone,
+    isAdmin:()=>false,hasPrice,routeError,canSelectShip,sortPickerShips,originIds,resolveOrigins,originSelectionError,formatPrice:value=>'$'+value,structuredClone,
     api:async()=>structuredClone(catalog),document:{createElement:tag=>elem(tag)},render:async(_canvas,state,ships)=>rendered.push({state,ships})};
   runInNewContext(actions,context);
   return {context,$,requests,rendered};

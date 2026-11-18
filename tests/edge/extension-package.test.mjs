@@ -115,15 +115,15 @@ test('默认离线 API 只读取一次包内清单，不把配置和图库操作
   globalThis.fetch=async url=>{requests.push(String(url));return {ok:true,json:async()=>structuredClone(catalog)};};
   try{
     const api=createOfflineApi({indexedDB:new IDBFactory(),dbName:'package-network-check'});
-    assert.equal((await api('/api/ships')).length,256);
+    assert.equal((await api('/api/ships')).length,257);
     const settings=await api('/api/settings');await api('/api/settings','PUT',{version:settings.version,value:{shop:'本机测试'}});
     await api('/api/ships');assert.equal((await api('/api/settings')).value.shop,'本机测试');
     assert.equal(requests.length,1);assert.equal(requests[0],pathToFileURL(resolve(root,'assets/ships/catalog.json')).href);
   }finally{globalThis.fetch=originalFetch;}
 });
 
-test('256 艘舰船各自的原图与缩略图完整，512 个文件的 SHA-256 与清单一致',async()=>{
-  assert.equal(catalog.schemaVersion,1);assert.equal(catalog.ships.length,256);
+test('257 艘舰船各自的原图与缩略图完整，514 个文件的 SHA-256 与清单一致',async()=>{
+  assert.equal(catalog.schemaVersion,1);assert.equal(catalog.ships.length,257);
   const ids=new Set(),originals=new Set(),thumbs=new Set();
   for(const ship of catalog.ships){
     assert.ok(!ids.has(ship.id));ids.add(ship.id);assert.ok(ship.name&&ship.en);assert.ok(ship.priceUsd===null||Number.isFinite(ship.priceUsd));
@@ -134,9 +134,14 @@ test('256 艘舰船各自的原图与缩略图完整，512 个文件的 SHA-256 
       if(directory==='thumbnails')assert.equal(bytes.toString('ascii',0,4),'RIFF');
     }
   }
-  assert.equal(originals.size,256);assert.equal(thumbs.size,256);
+  assert.equal(originals.size,257);assert.equal(thumbs.size,257);
   assert.deepEqual((await readdir(resolve(root,'assets/ships/images'))).sort(),[...originals].sort());
   assert.deepEqual((await readdir(resolve(root,'assets/ships/thumbnails'))).sort(),[...thumbs].sort());
+});
+
+test('图库包含云雀与 Marauder，Galaxy、Liberator 和 Marauder 价格符合本次更新',()=>{
+  for(const en of ['Skylark','Marauder','Galaxy','Liberator'])assert.equal(catalog.ships.filter(ship=>ship.en===en).length,1,en+' 必须唯一存在');
+  for(const [en,price] of [['Galaxy',400],['Liberator',600],['Marauder',150]])assert.equal(catalog.ships.find(ship=>ship.en===en).priceUsd,price,en);
 });
 
 test('CSV 只读取所需字段，数字零为普通 CCU，非零为 WBCCU',()=>{

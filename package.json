@@ -7,7 +7,7 @@
     "start": "node server.mjs",
     "build:edge": "node scripts/build-edge.mjs",
     "test:edge": "node scripts/test-edge.mjs",
-    "test": "node --test tests/server.test.mjs tests/catalog.test.mjs tests/route-rules.test.mjs tests/accounts.test.mjs tests/roles.test.mjs tests/demo.test.mjs tests/ccu-csv.test.mjs tests/ccu-xlsx.test.mjs tests/local-zip.test.mjs tests/image-cache.test.mjs tests/feedback.test.mjs tests/thumbnails.test.mjs tests/thumbnail-ui.test.mjs tests/seed-catalog.test.mjs",
+    "test": "node --test tests/server.test.mjs tests/catalog.test.mjs tests/route-rules.test.mjs tests/accounts.test.mjs tests/roles.test.mjs tests/demo.test.mjs tests/ccu-csv.test.mjs tests/ccu-xlsx.test.mjs tests/local-zip.test.mjs tests/image-cache.test.mjs tests/feedback.test.mjs tests/thumbnails.test.mjs tests/thumbnail-ui.test.mjs tests/seed-catalog.test.mjs tests/multi-origin-rules.test.mjs tests/multi-origin-renderer.test.mjs tests/multi-origin-ui.test.mjs",
     "seed-catalog": "node scripts/seed-catalog.mjs",
     "thumbnails": "node scripts/generate-thumbnails.mjs"
   },

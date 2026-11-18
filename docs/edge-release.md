@@ -1,12 +1,29 @@
-# 星际公民CCU图片生成器 · Edge 离线扩展 1.0.2
+# 星际公民CCU图片生成器 · Edge 离线扩展 1.0.3
 
-网页版和 Edge 离线扩展维护在同一仓库。扩展专用代码位于 `extensions/edge/`，舰船素材与合成模块直接复用仓库共享目录；无需重复提交 256 张原图和 256 张缩略图。网页服务端仍可按原有方式运行。
+网页版和 Edge 离线扩展维护在同一仓库。扩展专用代码位于 `extensions/edge/`，舰船素材与合成模块直接复用仓库共享目录；无需重复提交 257 张原图和 257 张缩略图。网页服务端仍可按原有方式运行。
+
+## 1.0.3 同价多起点
+
+默认保持单起点、单终点，「多个同价起点」开关默认关闭。手动开启后，同一张商品图可以选择 1–3 艘起点舰船和 1 艘终点舰船；关闭后只保留第一艘起点。所有起点必须同价，终点价格必须严格高于所有起点。旧版单起点配置继续兼容，CCUgame CSV 与星河避难所 XLSX 批量导入仍按每行单起点到单终点生成，不会自动合并路线。
+
+图库更新为 257 张原图和 257 张缩略图。基础资料仍为 2026-10-20 整理快照；2026-11-18 定向更新 Galaxy 为 $400、Liberator 为 $600，并新增 Marauder（$150）。原有 Skylark（云雀，$45）保留，没有重复新增。此次只涉及这三项定向变动，不表示其他舰船价格已与当前官网全面同步。
+
+以下为 1.0.3 的 GitHub 下载与校验入口；GitHub 发行版与 Edge 商店审核独立，不表示已通过商店包验证、审核或上架。
+
+- 发布标签：`edge-v1.0.3`
+- [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.3)
+- [完整扩展安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.3/WB-image-generator-Edge-offline-1.0.3.zip)：`WB-image-generator-Edge-offline-1.0.3.zip`。
+- [SHA-256 校验文件](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.3/WB-image-generator-Edge-offline-1.0.3.zip.sha256)。
+
+更新时保留原扩展安装目录、扩展 ID 和 Edge 用户配置文件，在 `edge://extensions` 重新加载，避免卸载造成个人配置丢失。完整步骤见 [扩展说明](../extensions/edge/README.md#更新时保留配置)。
 
 ## 1.0.2 更名内容
 
 扩展显示名称统一为「星际公民CCU图片生成器」，版本更新为 1.0.2；英文安装包文件名保留 `WB-image-generator-Edge-offline` 前缀。继续使用 1.0.1 的单一根清单结构，同一个包既可供商店上传，也可解压后本地加载。网站名称与图库清单不变。
 
 1.0.2 提供简体中文与英文商店元数据，默认简体中文；英文名称为「Star Citizen CCU Image Generator」。工作台界面主要为简体中文，批量输出可选择中文或英文舰船名，不包含整个工作台的英文界面切换。
+
+该历史版本内置 256 张原图和 256 张缩略图，保留原发布文件与校验记录。
 
 - 发布标签：`edge-v1.0.2`
 - [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.2)
@@ -31,7 +48,7 @@ GitHub 在每个 Release 下自动列出的 `Source code (zip)`、`Source code (
 
 ## 维护与重新发布
 
-仓库提供 **Publish Edge offline extension** 工作流：在 GitHub 的 Actions 页面选择它，点击「Run workflow」，填写与扩展清单版本一致的标签（例如 `edge-v1.0.2`）。它会在 GitHub 的标准 Ubuntu runner 上安装依赖、运行网页及离线测试、构建完整扩展，上传 ZIP 和 SHA-256 文件并验证后公开发行版。无需从本机重新上传整包图片，也不需要配置个人访问令牌或上传服务器凭据。
+仓库提供 **Publish Edge offline extension** 工作流：在 GitHub 的 Actions 页面选择它，点击「Run workflow」，填写与扩展清单版本一致的标签（例如 `edge-v1.0.3`）。它会在 GitHub 的标准 Ubuntu runner 上安装依赖、运行网页及离线测试、构建完整扩展，上传 ZIP 和 SHA-256 文件并验证后公开发行版。无需从本机重新上传整包图片，也不需要配置个人访问令牌或上传服务器凭据。
 
 工作流仅允许手动触发，使用当次运行的仓库令牌写入发行版；不会改动网站部署。已公开的同名版本不会被覆盖；草稿若存在未完成的附件，需要先检查并清理该次失败上传，再重新运行。
 

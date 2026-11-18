@@ -6,9 +6,11 @@
 
 ## 星际公民CCU图片生成器 · Edge 离线扩展下载
 
-**只想在自己的电脑上使用？下载 [星际公民CCU图片生成器 1.0.2 安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.2/WB-image-generator-Edge-offline-1.0.2.zip)。** 内含 256 张舰船原图和 256 张缩略图，约 267 MB；解压后通过 Edge 加载，无需登录或启动服务器，日常选船和生成图片从本地读取。
+**1.0.3 功能：** 默认保持单起点、单终点；手动开启「多个同价起点」后，同一张商品图可选择 1–3 艘同价起点舰船，关闭时只保留第一艘。终点价格必须严格高于所有起点；旧版单起点配置与 CSV/XLSX 批量导入继续兼容。GitHub 下载入口与 Edge 商店审核状态独立。
 
-在 [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.2)选择 `WB-image-generator-Edge-offline-1.0.2.zip`。GitHub 自动提供的 `Source code (zip)`、`Source code (tar.gz)`，以及绿色「Code → Download ZIP」下载的是项目源码，不是已打包的扩展。
+**完整离线包：[星际公民CCU图片生成器 1.0.3 安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.3/WB-image-generator-Edge-offline-1.0.3.zip)。** 内含 257 张舰船原图和 257 张缩略图；解压后通过 Edge 加载，无需登录或启动服务器，日常选船和生成图片从本地读取。
+
+在 [1.0.3 Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.3)选择 `WB-image-generator-Edge-offline-1.0.3.zip`。GitHub 自动提供的 `Source code (zip)`、`Source code (tar.gz)`，以及绿色「Code → Download ZIP」下载的是项目源码，不是已打包的扩展。此前已发布的 [1.0.2 历史版本](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.2)内含 256 张原图和 256 张缩略图，约 267 MB，不包含本次新增功能和图库更新。
 
 1.0.2 将扩展显示名称统一为「星际公民CCU图片生成器」。此前 1.0.1 已修复多份 `manifest.json` 和 ZIP 根目录结构问题，并通过商店包验证；同一安装包既可供商店上传，也可解压后本地加载。不要再上传 1.0.0 旧包。包验证不等于审核通过；尚未在真实 Edge 中完成试装，也尚未上架。
 
@@ -58,7 +60,7 @@ node --env-file=.env server.mjs
 
 ## 随附舰船素材
 
-`assets/ships/` 包含 256 张官方舰船缓存原图、对应的 256 张 WebP 缩略图，以及中英文名称、价格和校验信息清单。名称与价格来自 2026-10-20 整理快照，不保证与当前官方商店一致；管理员可以维护。
+`assets/ships/` 包含 257 张官方舰船缓存原图、对应的 257 张 WebP 缩略图，以及中英文名称、价格和校验信息清单。基础资料为 2026-10-20 整理快照，2026-11-18 定向更新 Galaxy 为 $400、Liberator 为 $600，并新增 Marauder（$150）；原有 Skylark（云雀，$45）保留。此次没有全量刷新官网价格，不保证其他条目与当前官方商店一致；管理员可以维护。
 
 舰船图片的版权由 RSI / CIG 等原权利人保留，**不适用代码的 AGPL 许可**。本项目没有将缓存或署名说明视为公开再分发授权；公开分发这部分素材前应核实适用许可。详见[素材权利说明](ASSET_LICENSE.md)。不需要随附素材时，可不执行初始化，在管理员界面上传具有使用权限的图片。
 

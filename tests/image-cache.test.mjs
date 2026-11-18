@@ -15,22 +15,22 @@ async function setup(t){
   return {...await import(`../public/renderer.js?image-cache-test=${instance++}`),created};
 }
 
-test('image cache reuses promises and refreshes LRU hits while retaining only four entries',async t=>{
-  const {loadImage,created}=await setup(t),a=loadImage('a'),b=loadImage('b'),c=loadImage('c'),d=loadImage('d');
-  assert.equal(created.length,4);assert.equal(loadImage('a'),a);
-  loadImage('e');
-  assert.equal(created.length,5);assert.equal(loadImage('a'),a);assert.equal(loadImage('c'),c);assert.equal(loadImage('d'),d);
+test('image cache retains six entries and refreshes LRU hits before evicting the seventh',async t=>{
+  const {loadImage,created}=await setup(t),a=loadImage('a'),b=loadImage('b'),c=loadImage('c'),d=loadImage('d'),e=loadImage('e'),f=loadImage('f');
+  assert.equal(created.length,6);assert.equal(loadImage('a'),a);
+  loadImage('g');
+  assert.equal(created.length,7);assert.equal(loadImage('a'),a);assert.equal(loadImage('c'),c);assert.equal(loadImage('d'),d);assert.equal(loadImage('e'),e);assert.equal(loadImage('f'),f);
   const replacement=loadImage('b');
-  assert.notEqual(replacement,b);assert.equal(created.length,6);
+  assert.notEqual(replacement,b);assert.equal(created.length,8);
   for(const image of created)image.succeed();
-  assert.equal(await b,created[1]);assert.equal(await replacement,created[5]);
+  assert.equal(await b,created[1]);assert.equal(await replacement,created[7]);
 });
 
 test('eviction leaves held image promises usable and never cancels their loads',async t=>{
   const {loadImage,created}=await setup(t),pending=loadImage('a');
-  for(const url of ['b','c','d','e'])loadImage(url);
+  for(const url of ['b','c','d','e','f','g'])loadImage(url);
   created[0].succeed();assert.equal(await pending,created[0]);
-  assert.notEqual(loadImage('a'),pending);assert.equal(created.length,6);
+  assert.notEqual(loadImage('a'),pending);assert.equal(created.length,8);
   for(const image of created.slice(1))image.succeed();
 });
 
@@ -61,6 +61,15 @@ test('canvas rendering loads originals only for the two selected ships even when
   for(const image of created)image.succeed();await pending;
   assert.deepEqual(created.map(image=>image.url).filter(url=>url.startsWith('/media/')),['/media/a.jpg','/media/b.jpg']);
   assert.equal(created.some(image=>image.url.startsWith('/thumbnails/')),false);
+});
+
+test('three origins, one endpoint, frame and logo remain cached across repeated rendering',async t=>{
+  const {render,created}=await setup(t),{canvas}=titleCanvas(),ships=['a','b','c','to'].map(id=>({id,name:id,priceUsd:id==='to'?200:100,imageUrl:'/media/'+id+'.jpg'}));
+  const state={from:['a','b','c'],to:'to',shop:'',title:'',separator:' → ',type:'WBCCU',logo:'/media/logo.png',crop:{from:{},to:{}},upgradeArrow:'none'};
+  const pending=render(canvas,state,ships);assert.equal(created.length,6);
+  for(const image of created)image.succeed();await pending;
+  await render(canvas,state,ships);assert.equal(created.length,6);
+  assert.deepEqual(created.map(image=>image.url),['/media/a.jpg','/media/b.jpg','/media/c.jpg','/media/to.jpg','/assets/porcelain.png','/media/logo.png']);
 });
 
 test('transient English rendering changes only automatic ship names and the regular CCU badge',async t=>{

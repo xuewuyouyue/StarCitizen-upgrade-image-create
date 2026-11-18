@@ -1198,7 +1198,7 @@
       "name": "银河",
       "en": "Galaxy",
       "manufacturer": "",
-      "priceUsd": 380,
+      "priceUsd": 400,
       "file": "fb5df1c8-5708-4e9a-87a4-3214f9e875f1.jpg",
       "sha256": "834a9cad42b6fdc5703a4db48c41c7a9402dd14b48366e07c2bd6790e156992d",
       "thumbnailFile": "fb5df1c8-5708-4e9a-87a4-3214f9e875f1.jpg.webp",
@@ -1583,7 +1583,7 @@
       "name": "解放者",
       "en": "Liberator",
       "manufacturer": "",
-      "priceUsd": 575,
+      "priceUsd": 600,
       "file": "20acebe3-9458-4033-8e2a-e9996e496d8d.jpg",
       "sha256": "8d9a67cb2193aa61275583bc2c8d173d372c6b58390d9823b6b8bf67ae47570e",
       "thumbnailFile": "20acebe3-9458-4033-8e2a-e9996e496d8d.jpg.webp",
@@ -2820,6 +2820,48 @@
       "sha256": "66a1204bc5d6c406a12d3847a22d46ca9cee788b77580a71bcd7e31f22cd0ec6",
       "thumbnailFile": "04e16a2b-9884-4d02-9b3a-311e4b09d0ca.jpg.webp",
       "thumbnailSha256": "dd9dc5204851fe8a1f923807c2cf243435987e6e220bdee079eeabdda116ee7e"
+    },
+    {
+      "id": "32beda0b-1c6b-4a6b-b808-31bec7388dce",
+      "name": "Marauder",
+      "en": "Marauder",
+      "manufacturer": "Drake Interplanetary",
+      "priceUsd": 150,
+      "file": "13046a78-e0b6-4662-8dbe-9d31d2e50984.jpg",
+      "sha256": "2967806a4abf62e1d2d3456f44381fe22e2380aa891d58f3cf89622da25766a1",
+      "thumbnailFile": "13046a78-e0b6-4662-8dbe-9d31d2e50984.jpg.webp",
+      "thumbnailSha256": "926b1e0a1bf41ded8657ceb3c5368bbc4c06d6724de9d1e936856e8938cd4284"
+    }
+  ],
+  "updatedAt": "2026-11-18",
+  "catalogUpdates": [
+    {
+      "date": "2026-11-18",
+      "action": "price",
+      "id": "42681e8d-a3ca-474a-914c-ff01b321e86d",
+      "en": "Galaxy",
+      "previousPriceUsd": 380,
+      "priceUsd": 400,
+      "sourceUrl": "https://robertsspaceindustries.com/en/pledge/ships/galaxy/Galaxy"
+    },
+    {
+      "date": "2026-11-18",
+      "action": "price",
+      "id": "dc52faca-c59c-485f-bd96-9e22874162d3",
+      "en": "Liberator",
+      "previousPriceUsd": 575,
+      "priceUsd": 600,
+      "sourceUrl": "https://robertsspaceindustries.com/en/pledge/ships/liberator/Liberator"
+    },
+    {
+      "date": "2026-11-18",
+      "action": "add",
+      "id": "32beda0b-1c6b-4a6b-b808-31bec7388dce",
+      "en": "Marauder",
+      "priceUsd": 150,
+      "sourceUrl": "https://robertsspaceindustries.com/en/pledge/ships/marauder/Marauder",
+      "imageSourceUrl": "https://robertsspaceindustries.com/i/cd24842e4dc484fc40537f1bffab9637d0df279f/resize(1820,1024,cover,ADdPNihJzmPbNuTnFsH1DqUeqBRpXdSXVVtgJTyDDgscGKrzJuoFjReskwEiEdYN6XMaZt7LnRjmz53SawsAVAkzi)/source.webp",
+      "note": "Standard MSRP/non-Warbond upgrade value USD150; Warbond USD135 is not used as ship value. Chinese name not confirmed; English name retained."
     }
   ]
 }

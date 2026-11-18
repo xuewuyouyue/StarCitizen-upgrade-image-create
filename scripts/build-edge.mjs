@@ -31,7 +31,7 @@ function localPath(directory,value){
 }
 async function verifyCatalog(directory,file='manifest.json'){
   const manifest=JSON.parse(await readFile(join(directory,file),'utf8'));
-  if(manifest.schemaVersion!==1||!Array.isArray(manifest.ships)||manifest.ships.length!==256)throw new Error('Expected the bundled catalog of 256 ships');
+  if(manifest.schemaVersion!==1||!Array.isArray(manifest.ships)||!manifest.ships.length)throw new Error('Expected a non-empty bundled ship catalog');
   const ids=new Set(),files=new Set();
   for(const ship of manifest.ships){
     if(!ship||typeof ship.id!=='string'||ids.has(ship.id)||!imageFile.test(ship.file)||files.has(ship.file)||ship.thumbnailFile!==ship.file+'.webp'||!checksum.test(ship.sha256)||!checksum.test(ship.thumbnailSha256))throw new Error('Invalid or duplicate bundled ship asset');
@@ -41,7 +41,7 @@ async function verifyCatalog(directory,file='manifest.json'){
       if(hash(await readFile(path))!==expected)throw new Error('Ship asset checksum mismatch: '+file);
     }
   }
-  for(const folder of ['images','thumbnails'])if((await readdir(join(directory,folder))).length!==256)throw new Error('Unexpected files in bundled '+folder);
+  for(const folder of ['images','thumbnails'])if((await readdir(join(directory,folder))).length!==manifest.ships.length)throw new Error('Unexpected files in bundled '+folder);
   return manifest.ships.length;
 }
 async function verifyExtension(directory){

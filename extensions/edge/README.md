@@ -4,25 +4,27 @@
 
 1.0.2 包含简体中文与英文商店元数据，默认简体中文；工作台界面主要为简体中文，批量生成可选择中文或英文舰船名，这不代表整个工作台支持英文界面切换。
 
+1.0.3 默认保持单起点、单终点；手动开启「多个同价起点」后，同一张商品图可选择 1–3 艘同价起点舰船，关闭时只保留第一艘。终点必须严格更贵。旧单起点配置与 CSV/XLSX 批量导入继续兼容。[1.0.3 发布页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.3) · [完整安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.3/WB-image-generator-Edge-offline-1.0.3.zip)。GitHub 下载入口不代表本版已通过商店审核或上架。
+
 ## 下载与安装
 
-1. 下载 [1.0.2 完整安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.2/WB-image-generator-Edge-offline-1.0.2.zip)，完整解压到准备长期保留的目录。安装包约 267 MB，首次下载会产生相应流量并占用本机磁盘。
+1. 下载 [1.0.3 完整安装包](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/download/edge-v1.0.3/WB-image-generator-Edge-offline-1.0.3.zip)，完整解压到准备长期保留的目录。首次下载会产生相应流量并占用本机磁盘。
 2. 在 Edge 地址栏输入 `edge://extensions`，开启「开发人员模式」。
 3. 点击「加载解压缩的扩展」，选择解压后**包含 `manifest.json` 的目录**。不要选择 ZIP 文件或不含清单的上层目录，也不要直接双击 `index.html`。
 4. 在工具栏的扩展菜单中找到「星际公民CCU图片生成器」，点击图标打开工作台；可按需将图标固定到工具栏。
 
 安装步骤依据 [Microsoft 官方本地安装文档](https://learn.microsoft.com/en-us/microsoft-edge/extensions/getting-started/extension-sideloading)。本版为桌面版 Edge 的 Manifest V3 扩展，尚未上架 Microsoft Edge Add-ons 商店，不会通过商店自动更新。
 
-在 [Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.2)选择我们上传的 `WB-image-generator-Edge-offline-1.0.2.zip`。GitHub 自动生成的 `Source code (zip)` 和 `Source code (tar.gz)` 是开发者源码，需要构建后才能安装。
+在 [1.0.3 Release 下载页](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.3)选择我们上传的 `WB-image-generator-Edge-offline-1.0.3.zip`。GitHub 自动生成的 `Source code (zip)` 和 `Source code (tar.gz)` 是开发者源码，需要构建后才能安装。[1.0.2 历史版本](https://github.com/xuewuyouyue/StarCitizen-upgrade-image-create/releases/tag/edge-v1.0.2)内含 256 张原图和 256 张缩略图，不包含本次新增功能和图库更新。
 
 1.0.2 将扩展显示名称统一为「星际公民CCU图片生成器」。此前 1.0.1 修复商店上传时检测出多份 `manifest.json` 的问题：扩展内图库清单改为 `assets/ships/catalog.json`，ZIP 根目录直接包含唯一的 `manifest.json`；网站使用的图库清单保持不变。1.0.1 已通过商店包验证，尚未通过审核或上架。同一个 ZIP 可供商店上传，也可解压后本地加载；不要再上传 1.0.0 旧包。
 
 ## 功能与本机数据
 
-- 内置 256 张舰船原图、256 张缩略图及中英文名称和价格。资料为 2026-10-20 整理快照，不是实时官网报价，可在本机维护。
-- 起点价格必须严格小于终点价格；选船支持搜索、默认顺序、价格升序和降序。
+- 内置 257 张舰船原图、257 张缩略图及中英文名称和价格。基础资料为 2026-10-20 整理快照，2026-11-18 定向更新 Galaxy 为 $400、Liberator 为 $600，并新增 Marauder（$150）；原有 Skylark（云雀，$45）保留。其他条目未全量刷新，不是实时官网报价，可在本机维护。
+- 1.0.3 默认单起点、单终点。「多个同价起点」默认关闭，手动开启后可选择 1–3 艘同价起点舰船并合成在同一张商品图中；关闭后仅保留第一艘。终点价格必须严格高于所有起点。选船支持搜索、默认顺序、价格升序和降序；旧单起点配置继续兼容。
 - 支持 WBCCU、涨价 CCU、普通 CCU，以及店铺名、标识、商品标题、中框文字、箭头样式和颜色的定制。
-- 「外部导入」支持 CCUgame CSV 和星河避难所 XLSX。节约为 0 时生成普通 CCU，其余生成 WBCCU；输出语言默认中文，可选择英文。表格解析、图片生成和 ZIP 打包均在本机执行。
+- 「外部导入」继续支持 CCUgame CSV 和星河避难所 XLSX，每行沿用单起点到单终点的路线。节约为 0 时生成普通 CCU，其余生成 WBCCU；输出语言默认中文，可选择英文。表格解析、图片生成和 ZIP 打包均在本机执行。
 - 自定义图库与常用配置保存在当前 Edge 用户配置文件的扩展存储中，不上传网站、不改动线上图库，也不跨设备同步。手动添加的图片会额外占用本机存储。
 
 扩展不提供账号、管理员角色或在线留言板。卸载扩展、删除浏览器用户配置文件或清除扩展存储会丢失本机配置和手动维护的图库；已下载到普通文件夹的成品图片不受影响。当前没有个人配置和图库的备份导入、导出功能。
